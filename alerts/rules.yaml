@@ -1,0 +1,36 @@
+rules:
+  - id: 1001
+    name: "SQL Injection Attempt"
+    description: "Detects common SQL injection keywords in the HTTP request path."
+    severity: "High"
+    conditions:
+      field: "path"
+      operator: "regex"
+      value: "(?i)(union.*select|select.*from|insert.*into|drop.*table|' OR '1'='1)"
+
+  - id: 1002
+    name: "Access to Sensitive File (/etc/passwd)"
+    description: "Detects path traversal attempts trying to read sensitive Linux files."
+    severity: "High"
+    conditions:
+      field: "path"
+      operator: "contains"
+      value: "/etc/passwd"
+
+  - id: 1003
+    name: "Suspicious User Agent (Nmap/Scanner)"
+    description: "Detects automated scanning tools by their User-Agent strings."
+    severity: "Medium"
+    conditions:
+      field: "user_agent"
+      operator: "regex"
+      value: "(?i)(nmap|sqlmap|nikto|dirbuster|curl)"
+
+  - id: 1004
+    name: "Internal Server Error (500)"
+    description: "Detects application crashes which may indicate a successful exploit payload."
+    severity: "Low"
+    conditions:
+      field: "status"
+      operator: "equals"
+      value: 500
