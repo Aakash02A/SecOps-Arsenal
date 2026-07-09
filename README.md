@@ -1,12 +1,13 @@
-# Cybersecurity-B-I-A-E-Projects
+# SecOps-Arsenal
 
-[![Repo: Tools-first](https://img.shields.io/badge/Repo-Tools--First-blue?style=for-the-badge)](./)
+[![Repo: SecOps-Arsenal](https://img.shields.io/badge/Repo-SecOps--Arsenal-blue?style=for-the-badge)](./)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](http://makeapullrequest.com)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 ![Status: Active](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)
 
 ## 🔒 Cybersecurity Tools — Beginner → Expert
 
-*Cybersecurity-B-I-A-E-Projects is a curated collection of practical tools, scripts, and small services designed to help you learn cybersecurity through real, hands-on projects.
+*SecOps-Arsenal is a curated collection of practical tools, scripts, and small services designed to help you learn cybersecurity through real, hands-on projects.
 This repo focuses on building defensive and offensive security utilities that you can run, modify, and integrate into your own testing environment or learning lab. 
 Each project is created to strengthen core security skills, from basic reconnaissance to advanced incident response and system hardening.*
 
@@ -57,6 +58,15 @@ Each project is created to strengthen core security skills, from basic reconnais
 - **Deployment:** Docker (docker-compose for multi-service examples)
 - **Visualization / UI:** Streamlit or simple HTML reports
 - **CI / Testing:** GitHub Actions (linting, unit tests, container build)
+
+---
+
+## 🤝 Open Source & Contributing
+
+We welcome contributions! SecOps-Arsenal is an open-source initiative aimed at building a robust collection of cybersecurity tools. 
+Whether you're fixing a bug, adding a new tool to one of the tiers, or improving documentation, your help is appreciated.
+
+Please review our [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) before submitting a Pull Request.
 
 ---
 
