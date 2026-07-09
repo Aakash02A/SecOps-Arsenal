@@ -1,0 +1,17 @@
+playbooks:
+  - name: "Isolate Ransomware Host"
+    trigger: "RANSOMWARE_DETECTED"
+    description: "Automatically disable the user account and send a critical email alert."
+    actions:
+      - type: "script"
+        # The {username} is dynamically pulled from the incoming JSON alert
+        command: "python ../automations/lock_account.py {username}"
+      - type: "script"
+        command: 'python ../automations/email_alert.py "soc@company.com" --subject "[CRITICAL] Ransomware on {hostname}" --body "User {username} account has been locked due to ransomware detection."'
+        
+  - name: "Block Brute-Force Attacker"
+    trigger: "BRUTE_FORCE_SUCCESS"
+    description: "Block the attacker IP at the firewall level."
+    actions:
+      - type: "script"
+        command: "python ../automations/block_ip.py {src_ip}"

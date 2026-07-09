@@ -1,0 +1,18 @@
+[
+    {
+        "type": "RANSOMWARE_DETECTED",
+        "severity": "CRITICAL",
+        "hostname": "DESKTOP-FINANCE-01",
+        "username": "jdoe"
+    },
+    {
+        "type": "BRUTE_FORCE_SUCCESS",
+        "severity": "HIGH",
+        "src_ip": "104.28.10.10"
+    },
+    {
+        "type": "UNKNOWN_ALERT",
+        "severity": "LOW",
+        "details": "This alert has no associated playbook."
+    }
+]
