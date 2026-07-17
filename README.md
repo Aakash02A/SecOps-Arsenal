@@ -61,7 +61,7 @@ Each project is created to strengthen core security skills, from basic reconnais
 
 ---
 
-## 🤝 Open Source & Contributing
+## 🤝 Contributing
 
 We welcome contributions! SecOps-Arsenal is an open-source initiative aimed at building a robust collection of cybersecurity tools. 
 Whether you're fixing a bug, adding a new tool to one of the tiers, or improving documentation, your help is appreciated.
@@ -70,12 +70,12 @@ Please review our [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduc
 
 ---
 
-## 🎯 Final Use of This Repository
+## 🎯 Why Use This Repository
 
 This repository serves as a structured collection of **hands-on cybersecurity projects** designed to help you learn by building real tools.  
 Each folder contains a practical project that teaches essential security concepts through implementation.
 
-### What you will get by using this repo:
+### What you'll get
 - 🔧 Learn cybersecurity by **building real tools**, not just reading theory.
 - 🧠 Understand how security concepts work internally by creating them yourself.
 - 💻 Gain confidence through **practical, code-driven learning**.
@@ -83,9 +83,9 @@ Each folder contains a practical project that teaches essential security concept
 - 🚀 Build a strong **portfolio** showcasing real cybersecurity engineering work.
 - 🛠️ Develop a mindset of solving problems like a security engineer.
 
-### Purpose of this repo:
-To provide a clean, organized space where you can **practice**, **experiment**, and **grow** your cybersecurity skills through * well-defined, project-based tools.
+### Purpose
+To provide a clean, organized space where you can **practice**, **experiment**, and **grow** your cybersecurity skills through well-defined, project-based tools.
 
 ---
 
-# Build by [Aakash](https://github.com/Aakash02A)
+## Built by [Aakash](https://github.com/Aakash02A)
