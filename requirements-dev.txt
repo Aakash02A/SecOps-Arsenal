@@ -1,0 +1,22 @@
+# =============================================================================
+# SecOps-Arsenal — Development Dependencies
+# =============================================================================
+# Install with: pip install -r requirements-dev.txt
+
+-r requirements.txt
+
+# Testing
+pytest~=8.3
+pytest-cov~=6.0
+
+# Linting & Formatting
+ruff~=0.8
+
+# Pre-commit hooks
+pre-commit~=4.0
+
+# Dependency vulnerability auditing
+pip-audit~=2.7
+
+# YAML validation
+yamllint~=1.35
