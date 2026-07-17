@@ -1,0 +1,40 @@
+# =============================================================================
+# SecOps-Arsenal — Runtime Dependencies
+# =============================================================================
+# Install with: pip install -r requirements.txt
+#
+# Not all tools require all dependencies. Each tool's README lists its
+# specific requirements. This file consolidates everything for convenience.
+# =============================================================================
+
+# Core networking & HTTP
+requests~=2.32
+
+# DNS lookups (basic-recon)
+dnspython~=2.7
+
+# WHOIS lookups (basic-recon)
+python-whois~=0.9
+
+# Nmap wrapper (basic-recon)
+python-nmap~=0.7
+
+# Packet sniffing (packet-sniffer)
+scapy~=2.6
+
+# YAML parsing (alerts, orchestration)
+PyYAML~=6.0
+
+# Image metadata / EXIF extraction (forensics)
+Pillow~=11.0
+
+# SMB enumeration (red-team)
+pysmb~=1.2
+
+# Elasticsearch client (siem-ingest)
+elasticsearch~=8.17
+
+# Dashboard & visualization (log-parser)
+streamlit~=1.41
+pandas~=2.2
+plotly~=6.0

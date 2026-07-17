@@ -1,5 +1,14 @@
-import requests
+#!/usr/bin/env python3
+"""IP information lookup — fetch geolocation, ASN, and reverse DNS data.
+
+Provides both an importable API (`run_ip_info`) and a standalone CLI.
+"""
+
+import argparse
+import json
 import socket
+import requests
+
 
 def get_ipinfo_api(ip: str) -> dict:
     """Query ipapi.co for IP intelligence."""
@@ -21,7 +30,7 @@ def get_ipinfo_api(ip: str) -> dict:
             "asn": response.get("asn"),
             "org": response.get("org"),
         }
-    except:
+    except requests.RequestException:
         return None
 
 
@@ -29,7 +38,7 @@ def get_hostname(ip: str) -> str:
     """Reverse DNS lookup for hostname."""
     try:
         return socket.gethostbyaddr(ip)[0]
-    except:
+    except (socket.herror, socket.gaierror, OSError):
         return None
 
 
@@ -45,7 +54,7 @@ def run_ip_info(ip: str) -> dict:
         "longitude": None,
         "asn": None,
         "org": None,
-        "raw": {}
+        "raw": {},
     }
 
     # Query API
@@ -56,3 +65,30 @@ def run_ip_info(ip: str) -> dict:
         result["raw"] = data
 
     return result
+
+
+def main():
+    parser = argparse.ArgumentParser(description="IP Address Information Lookup")
+    parser.add_argument("ip", help="IP address to look up (e.g., 8.8.8.8)")
+    parser.add_argument(
+        "--json", action="store_true", dest="json_output",
+        help="Output results in JSON format",
+    )
+
+    args = parser.parse_args()
+    result = run_ip_info(args.ip)
+
+    if args.json_output:
+        print(json.dumps(result, indent=2))
+    else:
+        print(f"[+] IP:       {result['ip']}")
+        print(f"    Hostname: {result['hostname'] or 'N/A'}")
+        print(f"    City:     {result['city'] or 'N/A'}")
+        print(f"    Region:   {result['region'] or 'N/A'}")
+        print(f"    Country:  {result['country'] or 'N/A'}")
+        print(f"    ASN:      {result['asn'] or 'N/A'}")
+        print(f"    Org:      {result['org'] or 'N/A'}")
+
+
+if __name__ == "__main__":
+    main()

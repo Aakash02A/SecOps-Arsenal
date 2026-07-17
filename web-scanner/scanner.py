@@ -1,8 +1,18 @@
+#!/usr/bin/env python3
+"""Basic Web Vulnerability Scanner — header audit, TLS inspection, common exposure checks.
+
+Performs checks commonly part of reconnaissance and vulnerability discovery:
+security headers, TLS certificate validity, and exposed sensitive files.
+
+⚠️  DISCLAIMER: Only run against web applications you own or have explicit
+authorization to test.
+"""
+
 import argparse
 import requests
 import socket
 import ssl
-from datetime import datetime
+from datetime import datetime, timezone
 import urllib.parse
 import sys
 
@@ -58,7 +68,7 @@ def check_tls(hostname):
                 if not_after:
                     # SSL certificates use a specific date format: 'Oct 29 12:00:00 2024 GMT'
                     expire_date = datetime.strptime(not_after, '%b %d %H:%M:%S %Y %Z')
-                    days_left = (expire_date - datetime.utcnow()).days
+                    days_left = (expire_date - datetime.now(timezone.utc)).days
                     
                     print(f"  [+] Expiration: {expire_date.strftime('%Y-%m-%d')} ({days_left} days remaining)")
                     if days_left < 30:

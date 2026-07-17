@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+"""Host Hardening & Baseline Auditor — security baseline checks.
+
+Automatically detects the host OS (Windows/Linux) and runs tailored
+security baseline checks including firewall status, account policies,
+and critical security settings.
+"""
+
 import platform
 import os
 import subprocess
@@ -133,7 +141,7 @@ def main():
         check_windows_baseline()
     elif os_name == "Linux":
         # Need root for some linux checks (like ufw)
-        if os.geteuid() != 0:
+        if hasattr(os, "geteuid") and os.geteuid() != 0:
             print("[-] WARNING: You are not running as root. Some checks may fail or return inaccurate results.")
         check_linux_baseline()
     else:

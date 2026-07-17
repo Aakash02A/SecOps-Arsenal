@@ -1,0 +1,43 @@
+[project]
+name = "secops-arsenal"
+version = "1.0.0"
+description = "A curated collection of cybersecurity tools for education, research, and authorized security testing."
+requires-python = ">=3.11"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # Pyflakes
+    "I",    # isort (import sorting)
+    "B",    # flake8-bugbear
+    "S",    # flake8-bandit (security)
+    "UP",   # pyupgrade
+    "SIM",  # flake8-simplify
+]
+ignore = [
+    "S603",  # subprocess call with shell=False — we intentionally use subprocess
+    "S607",  # starting a process with a partial executable path
+    "S108",  # probable insecure temp file usage — educational tools
+    "S310",  # audit URL open — we intentionally make HTTP requests
+    "S320",  # using lxml — not applicable
+    "S501",  # verify=False — intentional for security testing tools
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]  # allow assert in tests
+"red-team/*" = ["S"]  # security warnings expected in offensive tools
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
+addopts = "-v --tb=short"
