@@ -1,0 +1,61 @@
+# =============================================================================
+# SecOps-Arsenal .gitignore
+# =============================================================================
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+*.whl
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env
+
+# ---- Tool outputs (generated at runtime) ----
+baseline.json
+timeline.csv
+parsed_logs.csv
+parsed_logs.json
+mock_auth.json
+mock_net.json
+phishing_email.html
+ir_evidence/
+*.log
+
+# ---- IDE / Editor ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# ---- OS files ----
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ---- Docker ----
+docker-compose.override.yml
+
+# ---- Testing / Coverage ----
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+*.cover
+
+# ---- Misc ----
+*.bak
+*.tmp
+*.orig
