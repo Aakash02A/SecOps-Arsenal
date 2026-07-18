@@ -8,7 +8,7 @@
 # =============================================================================
 
 # Core networking & HTTP
-requests~=2.32
+requests~=2.34
 
 # DNS lookups (basic-recon)
 dnspython~=2.7
