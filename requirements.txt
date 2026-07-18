@@ -37,4 +37,4 @@ elasticsearch~=8.17
 # Dashboard & visualization (log-parser)
 streamlit~=1.41
 pandas~=2.2
-plotly~=6.0
+plotly~=6.9
