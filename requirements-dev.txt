@@ -16,7 +16,7 @@ ruff~=0.8
 pre-commit~=4.0
 
 # Dependency vulnerability auditing
-pip-audit~=2.7
+pip-audit~=2.10
 
 # YAML validation
 yamllint~=1.35
