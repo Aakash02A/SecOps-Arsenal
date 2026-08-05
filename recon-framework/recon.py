@@ -10,6 +10,7 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+
 def check_subdomain(domain, sub):
     """Check if a subdomain resolves to an IP address."""
     target = f"{sub}.{domain}"
@@ -20,6 +21,7 @@ def check_subdomain(domain, sub):
         # Domain does not resolve
         return None
 
+
 def check_directory(base_url, dir_name):
     """Check if a directory exists on the web server."""
     target = f"{base_url}/{dir_name}"
@@ -28,18 +30,31 @@ def check_directory(base_url, dir_name):
         r = requests.get(target, verify=False, timeout=3, allow_redirects=False)
         # We ignore 404 Not Found. Other codes (200 OK, 403 Forbidden, 301 Redirect) indicate existence.
         if r.status_code != 404:
-             return f"{target} (HTTP {r.status_code})"
+            return f"{target} (HTTP {r.status_code})"
     except requests.exceptions.RequestException:
         pass
     return None
 
+
 def main():
-    parser = argparse.ArgumentParser(description="Recon Framework: Subdomain & Directory Enumeration")
+    parser = argparse.ArgumentParser(
+        description="Recon Framework: Subdomain & Directory Enumeration"
+    )
     parser.add_argument("target", help="Target domain (e.g., example.com)")
     parser.add_argument("-w", "--wordlist", required=True, help="Path to wordlist file")
-    parser.add_argument("-t", "--threads", type=int, default=10, help="Number of concurrent threads (default: 10)")
-    parser.add_argument("--subdomains", action="store_true", help="Run subdomain enumeration")
-    parser.add_argument("--directories", action="store_true", help="Run directory brute-force")
+    parser.add_argument(
+        "-t",
+        "--threads",
+        type=int,
+        default=10,
+        help="Number of concurrent threads (default: 10)",
+    )
+    parser.add_argument(
+        "--subdomains", action="store_true", help="Run subdomain enumeration"
+    )
+    parser.add_argument(
+        "--directories", action="store_true", help="Run directory brute-force"
+    )
 
     args = parser.parse_args()
 
@@ -48,7 +63,7 @@ def main():
         sys.exit(1)
 
     try:
-        with open(args.wordlist, encoding='utf-8') as f:
+        with open(args.wordlist, encoding="utf-8") as f:
             # Strip whitespace and ignore empty lines
             words = [line.strip() for line in f if line.strip()]
     except Exception as e:
@@ -72,14 +87,16 @@ def main():
                 if res:
                     print(f"  [+] {res}")
                     found_subs.append(res)
-        print(f"[*] Subdomain Enum Complete. Found {len(found_subs)} active subdomains.")
+        print(
+            f"[*] Subdomain Enum Complete. Found {len(found_subs)} active subdomains."
+        )
 
     if args.directories:
         print("\n[*] Starting Directory Brute-force (HTTP GET)...")
         # Ensure we have a valid URL protocol for web requests
         base_url = args.target
-        if not base_url.startswith('http'):
-            base_url = 'https://' + base_url
+        if not base_url.startswith("http"):
+            base_url = "https://" + base_url
 
         found_dirs = []
         with ThreadPoolExecutor(max_workers=args.threads) as executor:
@@ -88,7 +105,10 @@ def main():
                 if res:
                     print(f"  [+] {res}")
                     found_dirs.append(res)
-        print(f"[*] Directory Brute-force Complete. Found {len(found_dirs)} accessible paths.")
+        print(
+            f"[*] Directory Brute-force Complete. Found {len(found_dirs)} accessible paths."
+        )
+
 
 if __name__ == "__main__":
     main()

@@ -61,11 +61,14 @@ def main():
     )
     parser.add_argument("username", help="The local username to lock/disable")
     parser.add_argument(
-        "--dry-run", action="store_true",
+        "--dry-run",
+        action="store_true",
         help="Print the command without executing it",
     )
     parser.add_argument(
-        "-y", "--yes", action="store_true",
+        "-y",
+        "--yes",
+        action="store_true",
         help="Skip the confirmation prompt",
     )
 
@@ -73,7 +76,9 @@ def main():
 
     if not validate_username(args.username):
         print(f"[-] Invalid username: {args.username}")
-        print("    Usernames may only contain letters, numbers, dots, hyphens, and underscores.")
+        print(
+            "    Usernames may only contain letters, numbers, dots, hyphens, and underscores."
+        )
         sys.exit(1)
 
     os_name = platform.system()

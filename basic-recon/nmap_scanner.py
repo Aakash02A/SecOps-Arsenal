@@ -25,10 +25,7 @@ def run_nmap_scan(target, arguments):
 
     results = {}
     for host in nm.all_hosts():
-        results[host] = {
-            "state": nm[host].state(),
-            "protocols": {}
-        }
+        results[host] = {"state": nm[host].state(), "protocols": {}}
         for proto in nm[host].all_protocols():
             results[host]["protocols"][proto] = {}
             ports = nm[host][proto].keys()
@@ -37,16 +34,28 @@ def run_nmap_scan(target, arguments):
 
     return results
 
+
 def main():
     parser = argparse.ArgumentParser(description="Basic Nmap Wrapper")
     parser.add_argument("target", help="Target IP or hostname")
-    parser.add_argument("-p", "--ports", help="Ports to scan (e.g., 22,80,443 or 1-1024)")
     parser.add_argument(
-        "-sV", "--service-version", action="store_true",
+        "-p", "--ports", help="Ports to scan (e.g., 22,80,443 or 1-1024)"
+    )
+    parser.add_argument(
+        "-sV",
+        "--service-version",
+        action="store_true",
         help="Probe open ports to determine service/version info",
     )
-    parser.add_argument("-O", "--os-detection", action="store_true", help="Enable OS detection (requires root/admin)")
-    parser.add_argument("--json", action="store_true", help="Output results in JSON format")
+    parser.add_argument(
+        "-O",
+        "--os-detection",
+        action="store_true",
+        help="Enable OS detection (requires root/admin)",
+    )
+    parser.add_argument(
+        "--json", action="store_true", help="Output results in JSON format"
+    )
 
     args = parser.parse_args()
 
@@ -67,13 +76,16 @@ def main():
     else:
         for host, data in results.items():
             print(f"\n[+] Host: {host} (State: {data['state']})")
-            for proto, ports in data.get('protocols', {}).items():
+            for proto, ports in data.get("protocols", {}).items():
                 print(f"  Protocol: {proto}")
                 for port, port_data in ports.items():
-                    state = port_data.get('state', 'unknown')
-                    name = port_data.get('name', 'unknown')
-                    version = port_data.get('version', '')
-                    print(f"    Port: {port}\tState: {state}\tService: {name} {version}")
+                    state = port_data.get("state", "unknown")
+                    name = port_data.get("name", "unknown")
+                    version = port_data.get("version", "")
+                    print(
+                        f"    Port: {port}\tState: {state}\tService: {name} {version}"
+                    )
+
 
 if __name__ == "__main__":
     main()

@@ -5,11 +5,11 @@ import os
 import time
 
 
-def calculate_file_hash(filepath, algorithm='sha256'):
+def calculate_file_hash(filepath, algorithm="sha256"):
     """Calculate the hash of a file."""
     try:
         hash_func = getattr(hashlib, algorithm)()
-        with open(filepath, 'rb') as f:
+        with open(filepath, "rb") as f:
             for chunk in iter(lambda: f.read(4096), b""):
                 hash_func.update(chunk)
         return hash_func.hexdigest()
@@ -17,7 +17,8 @@ def calculate_file_hash(filepath, algorithm='sha256'):
         print(f"[-] Error reading {filepath}: {e}")
         return None
 
-def build_baseline(directory, output_file, algorithm='sha256'):
+
+def build_baseline(directory, output_file, algorithm="sha256"):
     """Build a baseline of file hashes for a given directory."""
     baseline = {}
     print(f"[*] Building baseline for directory: {directory}")
@@ -28,11 +29,12 @@ def build_baseline(directory, output_file, algorithm='sha256'):
             if file_hash:
                 baseline[filepath] = file_hash
 
-    with open(output_file, 'w') as f:
+    with open(output_file, "w") as f:
         json.dump(baseline, f, indent=4)
     print(f"[+] Baseline saved to {output_file} with {len(baseline)} files.")
 
-def monitor_integrity(directory, baseline_file, algorithm='sha256'):
+
+def monitor_integrity(directory, baseline_file, algorithm="sha256"):
     """Compare current file hashes against a saved baseline."""
     print(f"[*] Loading baseline from {baseline_file}...")
     try:
@@ -67,6 +69,7 @@ def monitor_integrity(directory, baseline_file, algorithm='sha256'):
 
     print("[*] Integrity check complete.")
 
+
 def main():
     parser = argparse.ArgumentParser(description="File Integrity Monitor (FIM)")
     subparsers = parser.add_subparsers(dest="command", help="Commands")
@@ -75,38 +78,59 @@ def main():
     parser_build = subparsers.add_parser("build", help="Build a new baseline")
     parser_build.add_argument("directory", help="Directory to monitor")
     parser_build.add_argument(
-        "-o", "--output", default="baseline.json",
+        "-o",
+        "--output",
+        default="baseline.json",
         help="Output baseline file (default: baseline.json)",
     )
     parser_build.add_argument(
-        "-a", "--algorithm", default="sha256",
-        choices=['md5', 'sha1', 'sha256', 'sha512'], help="Hash algorithm",
+        "-a",
+        "--algorithm",
+        default="sha256",
+        choices=["md5", "sha1", "sha256", "sha512"],
+        help="Hash algorithm",
     )
 
     # Check command
-    parser_check = subparsers.add_parser("check", help="Check integrity against baseline")
+    parser_check = subparsers.add_parser(
+        "check", help="Check integrity against baseline"
+    )
     parser_check.add_argument("directory", help="Directory to monitor")
     parser_check.add_argument(
-        "-b", "--baseline", default="baseline.json",
+        "-b",
+        "--baseline",
+        default="baseline.json",
         help="Baseline file (default: baseline.json)",
     )
     parser_check.add_argument(
-        "-a", "--algorithm", default="sha256",
-        choices=['md5', 'sha1', 'sha256', 'sha512'], help="Hash algorithm",
+        "-a",
+        "--algorithm",
+        default="sha256",
+        choices=["md5", "sha1", "sha256", "sha512"],
+        help="Hash algorithm",
     )
 
     # Monitor command
-    parser_monitor = subparsers.add_parser("monitor", help="Continuously monitor integrity against baseline")
+    parser_monitor = subparsers.add_parser(
+        "monitor", help="Continuously monitor integrity against baseline"
+    )
     parser_monitor.add_argument("directory", help="Directory to monitor")
     parser_monitor.add_argument(
-        "-b", "--baseline", default="baseline.json",
+        "-b",
+        "--baseline",
+        default="baseline.json",
         help="Baseline file (default: baseline.json)",
     )
     parser_monitor.add_argument(
-        "-a", "--algorithm", default="sha256",
-        choices=['md5', 'sha1', 'sha256', 'sha512'], help="Hash algorithm",
+        "-a",
+        "--algorithm",
+        default="sha256",
+        choices=["md5", "sha1", "sha256", "sha512"],
+        help="Hash algorithm",
     )
-    parser_monitor.add_argument("-i", "--interval", type=int, default=10, help="Check interval in seconds")
+    parser_monitor.add_argument(
+        "-i", "--interval", type=int, default=10, help="Check interval in seconds"
+    )
 
     args = parser.parse_args()
 
@@ -115,7 +139,9 @@ def main():
     elif args.command == "check":
         monitor_integrity(args.directory, args.baseline, args.algorithm)
     elif args.command == "monitor":
-        print(f"[*] Starting continuous monitoring every {args.interval} seconds. Press Ctrl+C to stop.")
+        print(
+            f"[*] Starting continuous monitoring every {args.interval} seconds. Press Ctrl+C to stop."
+        )
         try:
             while True:
                 monitor_integrity(args.directory, args.baseline, args.algorithm)
@@ -124,6 +150,7 @@ def main():
             print("\n[*] Monitoring stopped.")
     else:
         parser.print_help()
+
 
 if __name__ == "__main__":
     main()

@@ -37,11 +37,16 @@ def main():
     parser = argparse.ArgumentParser(description="DNS Record Lookup")
     parser.add_argument("domain", help="Domain to look up (e.g., example.com)")
     parser.add_argument(
-        "--json", action="store_true", dest="json_output",
+        "--json",
+        action="store_true",
+        dest="json_output",
         help="Output results in JSON format",
     )
     parser.add_argument(
-        "-t", "--type", dest="record_types", nargs="+",
+        "-t",
+        "--type",
+        dest="record_types",
+        nargs="+",
         default=None,
         help="Specific record types to query (e.g., A MX NS)",
     )

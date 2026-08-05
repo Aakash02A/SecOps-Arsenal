@@ -1,7 +1,7 @@
 <div align="center">
   <img src="src/banner.png" alt="Java Forge Banner" width="100%">
 
-# 🛡️ SecOps-Arsenal
+<!-- # 🛡️ SecOps-Arsenal -->
 
 ### A Professional Collection of Cybersecurity Tools for Education, Research & Defense
 

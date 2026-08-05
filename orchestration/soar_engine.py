@@ -76,7 +76,10 @@ def execute_action(action, alert_data, dry_run=False):
         # Parse the command string into an argument list for safe execution
         cmd_parts = shlex.split(cmd)
         result = subprocess.run(
-            cmd_parts, capture_output=True, text=True, timeout=10,
+            cmd_parts,
+            capture_output=True,
+            text=True,
+            timeout=10,
         )
 
         if result.returncode == 0:
@@ -118,11 +121,14 @@ def main():
         help="Path to JSON file containing the incoming alert(s)",
     )
     parser.add_argument(
-        "-p", "--playbooks", default="playbooks.yaml",
+        "-p",
+        "--playbooks",
+        default="playbooks.yaml",
         help="Path to YAML playbooks file",
     )
     parser.add_argument(
-        "--dry-run", action="store_true",
+        "--dry-run",
+        action="store_true",
         help="Print commands without executing them",
     )
 

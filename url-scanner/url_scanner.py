@@ -27,7 +27,7 @@ def check_regex_patterns(url):
 
     # Check for excessive subdomains (e.g., a.b.c.d.example.com)
     # Exclude standard ones like www
-    if domain.count('.') > 3:
+    if domain.count(".") > 3:
         findings.append("URL has an unusually high number of subdomains.")
 
     # Check for abnormally long URL
@@ -36,9 +36,12 @@ def check_regex_patterns(url):
 
     # Check for suspicious characters or obfuscation (e.g., @ symbol for basic auth)
     if "@" in domain:
-        findings.append("URL contains '@' symbol in domain, often used to obscure the true destination.")
+        findings.append(
+            "URL contains '@' symbol in domain, often used to obscure the true destination."
+        )
 
     return findings
+
 
 def check_virustotal(url, api_key):
     """
@@ -51,19 +54,23 @@ def check_virustotal(url, api_key):
     url_id = base64.urlsafe_b64encode(url.encode()).decode().strip("=")
 
     api_url = f"https://www.virustotal.com/api/v3/urls/{url_id}"
-    headers = {
-        "x-apikey": api_key
-    }
+    headers = {"x-apikey": api_key}
 
     try:
         response = requests.get(api_url, headers=headers, timeout=10)
 
         if response.status_code == 200:
             data = response.json()
-            stats = data.get('data', {}).get('attributes', {}).get('last_analysis_stats', {})
+            stats = (
+                data.get("data", {})
+                .get("attributes", {})
+                .get("last_analysis_stats", {})
+            )
             return {"stats": stats}
         elif response.status_code == 404:
-            return {"status": "URL not found in VirusTotal database (hasn't been scanned recently)."}
+            return {
+                "status": "URL not found in VirusTotal database (hasn't been scanned recently)."
+            }
         elif response.status_code == 401:
             return {"error": "Invalid VirusTotal API Key."}
         else:
@@ -72,17 +79,22 @@ def check_virustotal(url, api_key):
     except Exception as e:
         return {"error": str(e)}
 
+
 def main():
-    parser = argparse.ArgumentParser(description="URL Scanner: Regex + Reputation Checks")
+    parser = argparse.ArgumentParser(
+        description="URL Scanner: Regex + Reputation Checks"
+    )
     parser.add_argument("url", help="The URL to scan (e.g., https://example.com)")
-    parser.add_argument("--api-key", help="VirusTotal API Key (can also be set via VT_API_KEY env var)")
+    parser.add_argument(
+        "--api-key", help="VirusTotal API Key (can also be set via VT_API_KEY env var)"
+    )
 
     args = parser.parse_args()
     url = args.url
 
     # Ensure URL has scheme
-    if not url.startswith(('http://', 'https://')):
-        url = 'http://' + url
+    if not url.startswith(("http://", "https://")):
+        url = "http://" + url
 
     print(f"\n[*] Scanning URL: {url}")
 
@@ -120,10 +132,15 @@ def main():
             print(f"    - Harmless:   {harmless} vendors")
 
             if malicious > 0 or suspicious > 0:
-                print("\n[!] WARNING: This URL is flagged as malicious or suspicious by multiple security vendors!")
+                print(
+                    "\n[!] WARNING: This URL is flagged as malicious or suspicious by multiple security vendors!"
+                )
     else:
         print("[-] Skipping VirusTotal check (no API key provided).")
-        print("    Set the VT_API_KEY environment variable or pass --api-key to enable.")
+        print(
+            "    Set the VT_API_KEY environment variable or pass --api-key to enable."
+        )
+
 
 if __name__ == "__main__":
     main()

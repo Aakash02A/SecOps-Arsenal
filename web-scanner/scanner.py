@@ -22,13 +22,14 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+
 def check_headers(url):
     print("\n[*] Auditing HTTP Security Headers...")
     security_headers = {
-        'Strict-Transport-Security': 'Missing HSTS. Vulnerable to MITM SSL stripping.',
-        'Content-Security-Policy': 'Missing CSP. Vulnerable to XSS.',
-        'X-Frame-Options': 'Missing X-Frame-Options. Vulnerable to Clickjacking.',
-        'X-Content-Type-Options': 'Missing X-Content-Type-Options. Vulnerable to MIME sniffing.'
+        "Strict-Transport-Security": "Missing HSTS. Vulnerable to MITM SSL stripping.",
+        "Content-Security-Policy": "Missing CSP. Vulnerable to XSS.",
+        "X-Frame-Options": "Missing X-Frame-Options. Vulnerable to Clickjacking.",
+        "X-Content-Type-Options": "Missing X-Content-Type-Options. Vulnerable to MIME sniffing.",
     }
 
     try:
@@ -42,13 +43,18 @@ def check_headers(url):
                 print(f"  [-] {warning}")
 
         # Check for information disclosure headers
-        if 'Server' in headers:
-            print(f"  [!] Info Disclosure: Server header is exposed -> {headers['Server']}")
-        if 'X-Powered-By' in headers:
-            print(f"  [!] Info Disclosure: X-Powered-By header is exposed -> {headers['X-Powered-By']}")
+        if "Server" in headers:
+            print(
+                f"  [!] Info Disclosure: Server header is exposed -> {headers['Server']}"
+            )
+        if "X-Powered-By" in headers:
+            print(
+                f"  [!] Info Disclosure: X-Powered-By header is exposed -> {headers['X-Powered-By']}"
+            )
 
     except requests.exceptions.RequestException as e:
         print(f"[-] Error retrieving headers: {e}")
+
 
 def check_tls(hostname):
     print(f"\n[*] Inspecting TLS/SSL Certificate for {hostname}...")
@@ -62,43 +68,50 @@ def check_tls(hostname):
             cert = ssock.getpeercert()
 
             # Extract Issuer and Subject common names safely
-            issuer = dict(x[0] for x in cert.get('issuer', []))
-            subject = dict(x[0] for x in cert.get('subject', []))
+            issuer = dict(x[0] for x in cert.get("issuer", []))
+            subject = dict(x[0] for x in cert.get("subject", []))
 
             print(f"  [+] Issued To: {subject.get('commonName', 'Unknown')}")
-            print(f"  [+] Issued By: {issuer.get('organizationName', issuer.get('commonName', 'Unknown'))}")
+            print(
+                f"  [+] Issued By: {issuer.get('organizationName', issuer.get('commonName', 'Unknown'))}"
+            )
 
-            not_after = cert.get('notAfter')
+            not_after = cert.get("notAfter")
             if not_after:
                 # SSL certificates use a specific date format: 'Oct 29 12:00:00 2024 GMT'
-                expire_date = datetime.strptime(not_after, '%b %d %H:%M:%S %Y %Z')
+                expire_date = datetime.strptime(not_after, "%b %d %H:%M:%S %Y %Z")
                 days_left = (expire_date - datetime.now(UTC)).days
 
-                print(f"  [+] Expiration: {expire_date.strftime('%Y-%m-%d')} ({days_left} days remaining)")
+                print(
+                    f"  [+] Expiration: {expire_date.strftime('%Y-%m-%d')} ({days_left} days remaining)"
+                )
                 if days_left < 30:
-                    print(f"  [!] WARNING: Certificate expires soon ({days_left} days)!")
+                    print(
+                        f"  [!] WARNING: Certificate expires soon ({days_left} days)!"
+                    )
             else:
                 print("  [-] Could not parse expiration date.")
 
     except TimeoutError:
-         print("[-] Timeout connecting to port 443.")
+        print("[-] Timeout connecting to port 443.")
     except ConnectionRefusedError:
-         print("[-] Port 443 is closed.")
+        print("[-] Port 443 is closed.")
     except Exception as e:
         print(f"[-] Error retrieving TLS info: {e}")
+
 
 def check_common_vulns(url):
     print("\n[*] Checking for Common Exposures...")
 
     # Ensure URL ends with a slash for appending paths
-    if not url.endswith('/'):
-        url += '/'
+    if not url.endswith("/"):
+        url += "/"
 
     endpoints = {
-        'robots.txt': 'Check for exposed sensitive paths in robots.txt',
-        '.git/config': 'CRITICAL: Git repository is publicly accessible!',
-        '.env': 'CRITICAL: Environment file is publicly accessible!',
-        'phpinfo.php': 'CRITICAL: PHPInfo page is exposed!'
+        "robots.txt": "Check for exposed sensitive paths in robots.txt",
+        ".git/config": "CRITICAL: Git repository is publicly accessible!",
+        ".env": "CRITICAL: Environment file is publicly accessible!",
+        "phpinfo.php": "CRITICAL: PHPInfo page is exposed!",
     }
 
     for endpoint, description in endpoints.items():
@@ -114,6 +127,7 @@ def check_common_vulns(url):
         except Exception as e:
             print(f"  [-] Error checking {endpoint}: {e}")
 
+
 def main():
     parser = argparse.ArgumentParser(description="Basic Web Vulnerability Scanner")
     parser.add_argument("url", help="Target URL (e.g., https://example.com)")
@@ -121,8 +135,8 @@ def main():
     args = parser.parse_args()
     url = args.url
 
-    if not url.startswith('http'):
-        url = 'https://' + url
+    if not url.startswith("http"):
+        url = "https://" + url
 
     print(f"[*] Starting scan against: {url}")
 
@@ -135,13 +149,14 @@ def main():
 
     check_headers(url)
 
-    if parsed.scheme == 'https':
+    if parsed.scheme == "https":
         check_tls(hostname)
     else:
         print("\n[-] Skipping TLS check because scheme is HTTP.")
 
     check_common_vulns(url)
     print("\n[*] Scan complete.")
+
 
 if __name__ == "__main__":
     main()

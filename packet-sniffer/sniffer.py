@@ -15,7 +15,7 @@ def packet_callback(packet):
         dst_ip = ip_layer.dst
         proto = ip_layer.proto
 
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         if packet.haslayer(TCP):
             tcp_layer = packet.getlayer(TCP)
@@ -39,14 +39,24 @@ def packet_callback(packet):
         else:
             print(f"[{timestamp}] Protocol:{proto} | {src_ip} -> {dst_ip}")
 
+
 def main():
     parser = argparse.ArgumentParser(description="Lightweight Network Packet Sniffer")
     parser.add_argument(
-        "-i", "--interface",
+        "-i",
+        "--interface",
         help="Interface to sniff on (e.g., eth0, wlan0). Defaults to all interfaces.",
     )
-    parser.add_argument("-c", "--count", type=int, default=0, help="Number of packets to capture (0 = infinite)")
-    parser.add_argument("-f", "--filter", default="ip", help="BPF filter (e.g., 'tcp port 80', 'icmp')")
+    parser.add_argument(
+        "-c",
+        "--count",
+        type=int,
+        default=0,
+        help="Number of packets to capture (0 = infinite)",
+    )
+    parser.add_argument(
+        "-f", "--filter", default="ip", help="BPF filter (e.g., 'tcp port 80', 'icmp')"
+    )
 
     args = parser.parse_args()
 
@@ -57,13 +67,20 @@ def main():
     print("[*] Press Ctrl+C to stop.\n")
 
     try:
-        sniff(iface=args.interface, filter=args.filter, prn=packet_callback, store=0, count=args.count)
+        sniff(
+            iface=args.interface,
+            filter=args.filter,
+            prn=packet_callback,
+            store=0,
+            count=args.count,
+        )
     except PermissionError:
         print("[-] Permission Error: Sniffing requires root/administrator privileges.")
         sys.exit(1)
     except Exception as e:
         print(f"[-] Error: {e}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

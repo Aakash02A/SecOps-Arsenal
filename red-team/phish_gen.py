@@ -77,7 +77,9 @@ def main():
     parser.add_argument("email", help="Target email address to simulate")
     parser.add_argument("url", help="The simulated phishing URL/landing page to embed")
     parser.add_argument(
-        "-o", "--output", default="phishing_email.html",
+        "-o",
+        "--output",
+        default="phishing_email.html",
         help="Output file name (default: phishing_email.html)",
     )
 
@@ -88,4 +90,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

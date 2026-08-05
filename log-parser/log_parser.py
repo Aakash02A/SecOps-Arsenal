@@ -7,11 +7,12 @@ from collections import Counter
 
 # Regex for standard Apache/Nginx Combined Log Format
 LOG_PATTERN = re.compile(
-    r'(?P<ip>\S+) \S+ \S+ \[(?P<timestamp>.*?)\] '
+    r"(?P<ip>\S+) \S+ \S+ \[(?P<timestamp>.*?)\] "
     r'"(?P<method>\S+) (?P<path>\S+) (?P<protocol>[^"]+)" '
-    r'(?P<status>\d{3}) (?P<bytes>\S+) '
+    r"(?P<status>\d{3}) (?P<bytes>\S+) "
     r'"(?P<referrer>[^"]*)" "(?P<user_agent>[^"]*)"'
 )
+
 
 def parse_log_file(filepath):
     """
@@ -23,13 +24,13 @@ def parse_log_file(filepath):
     print(f"[*] Parsing log file: {filepath}")
 
     try:
-        with open(filepath, encoding='utf-8') as f:
+        with open(filepath, encoding="utf-8") as f:
             for line in f:
                 match = LOG_PATTERN.match(line)
                 if match:
                     data = match.groupdict()
                     # Clean up bytes if it's '-'
-                    data['bytes'] = 0 if data['bytes'] == '-' else int(data['bytes'])
+                    data["bytes"] = 0 if data["bytes"] == "-" else int(data["bytes"])
                     parsed_logs.append(data)
                 else:
                     error_count += 1
@@ -47,12 +48,13 @@ def parse_log_file(filepath):
         print(f"[-] Unexpected error: {e}")
         sys.exit(1)
 
+
 def analyze_logs(parsed_logs):
     """
     Perform basic analysis on the parsed logs.
     """
-    ip_counter = Counter([log['ip'] for log in parsed_logs])
-    status_counter = Counter([log['status'] for log in parsed_logs])
+    ip_counter = Counter([log["ip"] for log in parsed_logs])
+    status_counter = Counter([log["status"] for log in parsed_logs])
 
     print("\n--- Quick Analysis ---")
 
@@ -64,28 +66,33 @@ def analyze_logs(parsed_logs):
     for status, count in status_counter.most_common():
         print(f"  {status}: {count}")
 
+
 def export_to_csv(parsed_logs, output_path):
     if not parsed_logs:
         return
 
     keys = parsed_logs[0].keys()
-    with open(output_path, 'w', newline='', encoding='utf-8') as f:
+    with open(output_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=keys)
         writer.writeheader()
         writer.writerows(parsed_logs)
     print(f"\n[+] Exported structured data to {output_path}")
 
+
 def export_to_json(parsed_logs, output_path):
-    with open(output_path, 'w', encoding='utf-8') as f:
+    with open(output_path, "w", encoding="utf-8") as f:
         json.dump(parsed_logs, f, indent=4)
     print(f"\n[+] Exported structured data to {output_path}")
+
 
 def main():
     parser = argparse.ArgumentParser(description="Apache/Nginx Log Parser")
     parser.add_argument("log_file", help="Path to the access.log file")
     parser.add_argument("--csv", help="Output parsed data to CSV format")
     parser.add_argument("--json", help="Output parsed data to JSON format")
-    parser.add_argument("--analyze", action="store_true", help="Perform and print quick analysis")
+    parser.add_argument(
+        "--analyze", action="store_true", help="Perform and print quick analysis"
+    )
 
     args = parser.parse_args()
 
@@ -102,6 +109,7 @@ def main():
 
     if not args.csv and not args.json and not args.analyze:
         print("[!] No action specified. Use --analyze, --csv, or --json.")
+
 
 if __name__ == "__main__":
     main()

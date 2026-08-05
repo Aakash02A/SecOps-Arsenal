@@ -10,7 +10,9 @@ def run_cmd(cmd):
     """Executes a shell command and returns the output safely."""
     try:
         # We capture output to save it, setting a timeout to prevent hanging commands
-        res = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=15)  # noqa: S602
+        res = subprocess.run(
+            cmd, shell=True, capture_output=True, text=True, timeout=15
+        )  # noqa: S602
 
         # If standard output is empty but error exists, return the error
         if not res.stdout.strip() and res.stderr.strip():
@@ -22,6 +24,7 @@ def run_cmd(cmd):
     except Exception as e:
         return f"[-] Error running {cmd}: {e}"
 
+
 def collect_windows(out_dir):
     """Native commands for Windows live response."""
     commands = {
@@ -29,9 +32,10 @@ def collect_windows(out_dir):
         "running_processes.txt": "tasklist /v",
         "system_info.txt": "systeminfo",
         "local_users.txt": "net user",
-        "active_services.txt": "sc query state= all"
+        "active_services.txt": "sc query state= all",
     }
     return collect_evidence(commands, out_dir)
+
 
 def collect_linux(out_dir):
     """Native commands for Linux live response."""
@@ -40,9 +44,10 @@ def collect_linux(out_dir):
         "running_processes.txt": "ps auxf",
         "system_info.txt": "uname -a && cat /etc/os-release",
         "local_users.txt": "cat /etc/passwd",
-        "active_services.txt": "systemctl list-units --type=service"
+        "active_services.txt": "systemctl list-units --type=service",
     }
     return collect_evidence(commands, out_dir)
+
 
 def collect_evidence(commands, out_dir):
     files_created = []
@@ -52,7 +57,7 @@ def collect_evidence(commands, out_dir):
 
         filepath = os.path.join(out_dir, filename)
         try:
-            with open(filepath, 'w', encoding='utf-8') as f:
+            with open(filepath, "w", encoding="utf-8") as f:
                 f.write(f"--- Artifact output for command: {cmd} ---\n\n")
                 f.write(output)
             files_created.append(filename)
@@ -61,6 +66,7 @@ def collect_evidence(commands, out_dir):
 
     return files_created
 
+
 def generate_report(out_dir, files_created, os_name):
     """Generates a clean Markdown report summarizing the triage."""
     print("\n[*] Generating IR Report...")
@@ -68,7 +74,7 @@ def generate_report(out_dir, files_created, os_name):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     try:
-        with open(report_path, 'w', encoding='utf-8') as f:
+        with open(report_path, "w", encoding="utf-8") as f:
             f.write("# Incident Response Triage Report\n\n")
             f.write(f"**Date/Time Collected:** {timestamp}\n")
             f.write(f"**Target OS:** {os_name}\n")
@@ -101,10 +107,13 @@ def generate_report(out_dir, files_created, os_name):
     except Exception as e:
         print(f"[-] Failed to generate report: {e}")
 
+
 def main():
     parser = argparse.ArgumentParser(description="Automated IR Evidence Collector")
     parser.add_argument(
-        "-o", "--output", default="ir_evidence",
+        "-o",
+        "--output",
+        default="ir_evidence",
         help="Output directory to store evidence (default: ir_evidence)",
     )
 
@@ -130,7 +139,10 @@ def main():
         sys.exit(1)
 
     generate_report(out_dir, files, os_name)
-    print("\n[*] Triage complete. Zip the folder securely and transfer to analysis workstation.")
+    print(
+        "\n[*] Triage complete. Zip the folder securely and transfer to analysis workstation."
+    )
+
 
 if __name__ == "__main__":
     main()

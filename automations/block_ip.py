@@ -28,8 +28,15 @@ def block_ip_windows(ip, dry_run=False):
     """Block an IP address using Windows Firewall (netsh advfirewall)."""
     rule_name = f"AutoBlock_{ip}"
     cmd = [
-        "netsh", "advfirewall", "firewall", "add", "rule",
-        f"name={rule_name}", "dir=in", "action=block", f"remoteip={ip}",
+        "netsh",
+        "advfirewall",
+        "firewall",
+        "add",
+        "rule",
+        f"name={rule_name}",
+        "dir=in",
+        "action=block",
+        f"remoteip={ip}",
     ]
     print(f"[*] Command: {' '.join(cmd)}")
 
@@ -68,11 +75,14 @@ def main():
     )
     parser.add_argument("ip", help="The IP address to block")
     parser.add_argument(
-        "--dry-run", action="store_true",
+        "--dry-run",
+        action="store_true",
         help="Print the command without executing it",
     )
     parser.add_argument(
-        "-y", "--yes", action="store_true",
+        "-y",
+        "--yes",
+        action="store_true",
         help="Skip the confirmation prompt",
     )
 

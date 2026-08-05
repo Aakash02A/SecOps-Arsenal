@@ -72,7 +72,9 @@ def main():
     parser = argparse.ArgumentParser(description="IP Address Information Lookup")
     parser.add_argument("ip", help="IP address to look up (e.g., 8.8.8.8)")
     parser.add_argument(
-        "--json", action="store_true", dest="json_output",
+        "--json",
+        action="store_true",
+        dest="json_output",
         help="Output results in JSON format",
     )
 

@@ -9,13 +9,13 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "log-parser"))
 from log_parser import LOG_PATTERN, parse_log_file
 
 SAMPLE_LOG_LINE = (
-    '192.168.1.1 - frank [10/Oct/2000:13:55:36 -0700] '
+    "192.168.1.1 - frank [10/Oct/2000:13:55:36 -0700] "
     '"GET /apache_pb.gif HTTP/1.0" 200 2326 '
     '"http://www.example.com/start.html" "Mozilla/4.08"'
 )
 
 SAMPLE_LOG_LINE_404 = (
-    '10.0.0.5 - - [10/Oct/2000:14:00:00 -0700] '
+    "10.0.0.5 - - [10/Oct/2000:14:00:00 -0700] "
     '"POST /login HTTP/1.1" 404 0 '
     '"-" "curl/7.68.0"'
 )
@@ -50,7 +50,9 @@ class TestParseLogFile:
     """Test the file parsing function."""
 
     def test_parse_valid_file(self):
-        with tempfile.NamedTemporaryFile(mode="w", suffix=".log", delete=False, encoding="utf-8") as f:
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".log", delete=False, encoding="utf-8"
+        ) as f:
             f.write(SAMPLE_LOG_LINE + "\n")
             f.write(SAMPLE_LOG_LINE_404 + "\n")
             f.write("bad line\n")
