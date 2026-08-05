@@ -1,4 +1,5 @@
 <div align="center">
+  <img src="src/banner.png" alt="Java Forge Banner" width="100%">
 
 # 🛡️ SecOps-Arsenal
 
@@ -15,7 +16,7 @@
 
 **SecOps-Arsenal** is a curated collection of 20+ hands-on cybersecurity tools, scripts, and services designed for education, research, defensive engineering, and authorized security testing. Each tool is a standalone project that teaches essential security concepts through real, runnable implementations.
 
-[Getting Started](#-quick-start) · [Tool Catalog](#-tool-catalog) · [Contributing](CONTRIBUTING.md) · [Security Policy](SECURITY.md)
+[Getting Started](#🚀-quick-start) · [Tool Catalog](#🧰-tool-catalog) · [Contributing](CONTRIBUTING.md) · [Security Policy](SECURITY.md)
 
 </div>
 
@@ -23,21 +24,21 @@
 
 ## 📋 Table of Contents
 
-- [Overview](#-overview)
-- [Repository Scope](#-repository-scope)
-- [Tool Catalog](#-tool-catalog)
-- [Quick Start](#-quick-start)
-- [Installation](#-installation)
-- [Architecture](#-architecture)
-- [Technologies](#-technologies)
-- [Supported Platforms](#-supported-platforms)
-- [Security Notice](#-security-notice)
-- [Contributing](#-contributing)
-- [Roadmap](#-roadmap)
-- [FAQ](#-faq)
-- [License](#-license)
-- [Maintainers](#-maintainers)
-- [Acknowledgements](#-acknowledgements)
+- [Overview](#🔍-overview)
+- [Repository Scope](#🎯-repository-scope)
+- [Tool Catalog](#🧰-tool-catalog)
+- [Quick Start](#🚀-quick-start)
+- [Installation](#📦-installation)
+- [Architecture](#🏗-architecture)
+- [Technologies](#⚙️-technologies)
+- [Supported Platforms](#💻-supported-platforms)
+- [Security Notice](#🔒-security-notice)
+- [Contributing](#🤝-contributing)
+- [Roadmap](#🗺-roadmap)
+- [FAQ](#❓-faq)
+- [License](#📄-license)
+- [Maintainers](#👤-maintainers)
+- [Acknowledgements](#🙏-acknowledgements)
 
 ---
 
@@ -351,6 +352,6 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 **Built with ❤️ for the cybersecurity community**
 
-[⬆ Back to Top](#️-secops-arsenal)
+[⬆ Back to Top](#🛡️-secops-arsenal)
 
 </div>
