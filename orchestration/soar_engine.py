@@ -9,16 +9,17 @@ in security labs and authorized environments.
 Only run with trusted playbook files in controlled environments.
 """
 
-import yaml
+import argparse
 import json
+import logging
+import os
 import re
 import shlex
 import subprocess
-import argparse
-import logging
 import sys
 import time
-import os
+
+import yaml
 
 logging.basicConfig(
     level=logging.INFO,
@@ -30,7 +31,7 @@ logger = logging.getLogger(__name__)
 def load_yaml(filepath):
     """Load and parse a YAML file safely."""
     try:
-        with open(filepath, "r", encoding="utf-8") as f:
+        with open(filepath, encoding="utf-8") as f:
             return yaml.safe_load(f)
     except Exception as e:
         logger.error("Error loading %s: %s", filepath, e)
@@ -140,7 +141,7 @@ def main():
         sys.exit(1)
 
     try:
-        with open(args.alert_file, "r", encoding="utf-8") as f:
+        with open(args.alert_file, encoding="utf-8") as f:
             alert_data = json.load(f)
     except Exception as e:
         logger.error("Error loading alert file: %s", e)

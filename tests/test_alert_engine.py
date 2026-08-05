@@ -1,7 +1,7 @@
 """Tests for the alert engine rule evaluation logic."""
 
-import sys
 import os
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "alerts"))
 

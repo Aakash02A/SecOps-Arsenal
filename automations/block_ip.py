@@ -10,8 +10,8 @@ authorized environments or security labs.
 
 import argparse
 import ipaddress
-import subprocess
 import platform
+import subprocess
 import sys
 
 
@@ -41,7 +41,7 @@ def block_ip_windows(ip, dry_run=False):
     if result.returncode == 0:
         print(f"[+] Successfully blocked {ip} in Windows Firewall.")
     else:
-        print(f"[-] Failed to block IP. Ensure you are running as Administrator.")
+        print("[-] Failed to block IP. Ensure you are running as Administrator.")
         print(f"    Error: {result.stderr.strip()}")
 
 
@@ -58,7 +58,7 @@ def block_ip_linux(ip, dry_run=False):
     if result.returncode == 0:
         print(f"[+] Successfully blocked {ip} using iptables.")
     else:
-        print(f"[-] Failed to block IP. Ensure you are running as root.")
+        print("[-] Failed to block IP. Ensure you are running as root.")
         print(f"    Error: {result.stderr.strip()}")
 
 

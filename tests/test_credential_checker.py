@@ -1,7 +1,7 @@
 """Tests for the credential checker password complexity logic."""
 
-import sys
 import os
+import sys
 
 # Add the project root so we can import from tool directories
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "credential-check"))

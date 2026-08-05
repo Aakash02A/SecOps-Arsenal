@@ -1,13 +1,13 @@
 """Tests for the file integrity monitor (FIM) hashing and baseline logic."""
 
-import sys
-import os
 import json
+import os
+import sys
 import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "file-integrity"))
 
-from fim import calculate_file_hash, build_baseline
+from fim import build_baseline, calculate_file_hash
 
 
 class TestFileHashCalculation:

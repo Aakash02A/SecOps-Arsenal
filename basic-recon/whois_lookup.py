@@ -6,6 +6,7 @@ Provides both an importable API (`run_whois`) and a standalone CLI.
 
 import argparse
 import json
+
 import whois
 
 

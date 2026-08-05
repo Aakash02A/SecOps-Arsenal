@@ -9,9 +9,9 @@ authorized environments or security labs.
 """
 
 import argparse
+import platform
 import re
 import subprocess
-import platform
 import sys
 
 

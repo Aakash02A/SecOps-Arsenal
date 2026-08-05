@@ -1,13 +1,12 @@
 """Tests for the log parser regex and analysis logic."""
 
-import sys
 import os
+import sys
 import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "log-parser"))
 
-from log_parser import parse_log_file, analyze_logs, LOG_PATTERN
-
+from log_parser import LOG_PATTERN, parse_log_file
 
 SAMPLE_LOG_LINE = (
     '192.168.1.1 - frank [10/Oct/2000:13:55:36 -0700] '

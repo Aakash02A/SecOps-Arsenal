@@ -1,11 +1,13 @@
-import requests
 import argparse
-import sys
 import socket
+import sys
 from concurrent.futures import ThreadPoolExecutor
+
+import requests
 
 # Suppress insecure request warnings for testing
 import urllib3
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def check_subdomain(domain, sub):
@@ -38,28 +40,28 @@ def main():
     parser.add_argument("-t", "--threads", type=int, default=10, help="Number of concurrent threads (default: 10)")
     parser.add_argument("--subdomains", action="store_true", help="Run subdomain enumeration")
     parser.add_argument("--directories", action="store_true", help="Run directory brute-force")
-    
+
     args = parser.parse_args()
-    
+
     if not args.subdomains and not args.directories:
         print("[-] You must specify what to run: --subdomains and/or --directories")
         sys.exit(1)
-    
+
     try:
-        with open(args.wordlist, 'r', encoding='utf-8') as f:
+        with open(args.wordlist, encoding='utf-8') as f:
             # Strip whitespace and ignore empty lines
             words = [line.strip() for line in f if line.strip()]
     except Exception as e:
         print(f"[-] Error reading wordlist: {e}")
         sys.exit(1)
-        
+
     print("==========================================")
     print("          Automated Recon Framework       ")
     print("==========================================")
     print(f"[*] Target: {args.target}")
     print(f"[*] Loaded {len(words)} words from {args.wordlist}")
     print(f"[*] Threads: {args.threads}")
-    
+
     if args.subdomains:
         print("\n[*] Starting Subdomain Enumeration (DNS Resolution)...")
         found_subs = []
@@ -77,8 +79,8 @@ def main():
         # Ensure we have a valid URL protocol for web requests
         base_url = args.target
         if not base_url.startswith('http'):
-            base_url = 'https://' + base_url 
-            
+            base_url = 'https://' + base_url
+
         found_dirs = []
         with ThreadPoolExecutor(max_workers=args.threads) as executor:
             results = executor.map(lambda w: check_directory(base_url, w), words)
