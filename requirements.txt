@@ -20,7 +20,7 @@ python-whois~=0.9
 python-nmap~=0.7
 
 # Packet sniffing (packet-sniffer)
-scapy~=2.6
+scapy~=2.7
 
 # YAML parsing (alerts, orchestration)
 PyYAML~=6.0
