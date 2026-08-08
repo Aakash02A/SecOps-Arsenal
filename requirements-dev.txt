@@ -7,7 +7,7 @@
 
 # Testing
 pytest~=8.3
-pytest-cov~=6.0
+pytest-cov~=7.1
 
 # Linting & Formatting
 ruff~=0.8
