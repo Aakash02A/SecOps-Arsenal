@@ -26,7 +26,7 @@ scapy~=2.6
 PyYAML~=6.0
 
 # Image metadata / EXIF extraction (forensics)
-Pillow~=11.0
+Pillow~=12.3
 
 # SMB enumeration (red-team)
 pysmb~=1.2
