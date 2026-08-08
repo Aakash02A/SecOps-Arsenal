@@ -10,7 +10,7 @@ pytest~=8.3
 pytest-cov~=6.0
 
 # Linting & Formatting
-ruff~=0.8
+ruff~=0.16
 
 # Pre-commit hooks
 pre-commit~=4.0
