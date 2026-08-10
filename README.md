@@ -8,8 +8,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge)](http://makeapullrequest.com)
-[![CI](https://img.shields.io/github/actions/workflow/status/Aakash02A/SecOps-Arsenal/ci.yml?style=for-the-badge&label=CI)](../../actions/workflows/ci.yml)
-[![CodeQL](https://img.shields.io/github/actions/workflow/status/Aakash02A/SecOps-Arsenal/codeql.yml?style=for-the-badge&label=CodeQL)](../../actions/workflows/codeql.yml)
 ![Status: Active](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)
 
 ---
@@ -173,11 +171,10 @@ Each tool's `README.md` lists its specific dependencies if you prefer to install
 
 ```
 SecOps-Arsenal/
-├── .github/                    # GitHub Actions, templates, Dependabot
-│   ├── workflows/              # CI and CodeQL pipelines
+├── .github/                    # GitHub Actions templates
+│   ├── workflows/              # GitHub Actions workflow folder
 │   ├── ISSUE_TEMPLATE/         # Bug report, feature request, tool request
 │   ├── PULL_REQUEST_TEMPLATE.md
-│   ├── dependabot.yml
 │   └── FUNDING.yml
 ├── tests/                      # Unit tests (pytest)
 ├── alerts/                     # 🟡 Rule-based alert engine
@@ -221,7 +218,7 @@ SecOps-Arsenal/
 | **Core Libraries** | `requests`, `scapy`, `pyyaml`, `dnspython`, `python-nmap` |
 | **Visualization** | Streamlit, Plotly, Pandas |
 | **Infrastructure** | Docker, Docker Compose, ELK Stack |
-| **CI/CD** | GitHub Actions, CodeQL, Dependabot |
+| **CI/CD** | GitHub Actions |
 | **Quality** | Ruff (lint + format), pytest, pre-commit, pip-audit |
 
 ---

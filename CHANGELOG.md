@@ -15,8 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `.gitignore` — comprehensive exclusion rules
 - `pyproject.toml` — Ruff linting and formatting configuration
 - GitHub Actions CI pipeline (`ci.yml`)
-- CodeQL security analysis workflow (`codeql.yml`)
-- Dependabot configuration for automated dependency updates
 - Unit tests for core tools (`credential-check`, `alerts`, `log-parser`, `correlation-engine`, `url-scanner`, `file-integrity`)
 - CLI entry points for `dns_lookup.py`, `ip_info.py`, and `whois_lookup.py`
 - Security tool request issue template
