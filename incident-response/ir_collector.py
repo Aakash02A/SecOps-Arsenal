@@ -3,24 +3,35 @@ import datetime
 import os
 import platform
 import subprocess
+import shlex
 import sys
 
 
 def run_cmd(cmd):
-    """Executes a shell command and returns the output safely."""
-    try:
-        # We capture output to save it, setting a timeout to prevent hanging commands
-        res = subprocess.run(
-            cmd, shell=True, capture_output=True, text=True, timeout=15
-        )  # noqa: S602
+    """Executes a command (list or string) without using the shell and returns output.
 
-        # If standard output is empty but error exists, return the error
-        if not res.stdout.strip() and res.stderr.strip():
+    Accepts either a list of arguments (preferred) or a string (which will be split
+    safely using `shlex.split`). This avoids `shell=True` while keeping familiar
+    invocation semantics.
+    """
+    try:
+        if isinstance(cmd, (list, tuple)):
+            args = list(cmd)
+        else:
+            # split the string into args safely
+            args = shlex.split(str(cmd))
+
+        res = subprocess.run(args, shell=False, capture_output=True, text=True, timeout=15)
+
+        if res.returncode != 0 and not res.stdout.strip():
+            # Return stderr if stdout is empty to keep previous behavior
             return f"[-] Command ran but returned error: {res.stderr}"
 
         return res.stdout
     except subprocess.TimeoutExpired:
         return f"[-] Command timed out: {cmd}"
+    except FileNotFoundError:
+        return f"[-] Command not found: {cmd}"
     except Exception as e:
         return f"[-] Error running {cmd}: {e}"
 
@@ -28,23 +39,38 @@ def run_cmd(cmd):
 def collect_windows(out_dir):
     """Native commands for Windows live response."""
     commands = {
-        "network_connections.txt": "netstat -ano",
-        "running_processes.txt": "tasklist /v",
-        "system_info.txt": "systeminfo",
-        "local_users.txt": "net user",
-        "active_services.txt": "sc query state= all",
+        "network_connections.txt": ["netstat", "-ano"],
+        "running_processes.txt": ["tasklist", "/v"],
+        "system_info.txt": ["systeminfo"],
+        "local_users.txt": ["net", "user"],
+        "active_services.txt": ["sc", "query", "state=all"],
     }
     return collect_evidence(commands, out_dir)
 
 
 def collect_linux(out_dir):
     """Native commands for Linux live response."""
+    def _network_connections():
+        out = run_cmd(["netstat", "-tulpn"])
+        if out.startswith("[-]"):
+            out = run_cmd(["ss", "-tulpn"])
+        return out
+
+    def _system_info():
+        out = run_cmd(["uname", "-a"]) or ""
+        try:
+            with open("/etc/os-release", "r", encoding="utf-8") as f:
+                out += "\n\n" + f.read()
+        except Exception:
+            pass
+        return out
+
     commands = {
-        "network_connections.txt": "netstat -tulpn || ss -tulpn",
-        "running_processes.txt": "ps auxf",
-        "system_info.txt": "uname -a && cat /etc/os-release",
-        "local_users.txt": "cat /etc/passwd",
-        "active_services.txt": "systemctl list-units --type=service",
+        "network_connections.txt": _network_connections,
+        "running_processes.txt": ["ps", "auxf"],
+        "system_info.txt": _system_info,
+        "local_users.txt": ["cat", "/etc/passwd"],
+        "active_services.txt": ["systemctl", "list-units", "--type=service"],
     }
     return collect_evidence(commands, out_dir)
 
@@ -53,7 +79,13 @@ def collect_evidence(commands, out_dir):
     files_created = []
     for filename, cmd in commands.items():
         print(f"[*] Collecting {filename} (Command: {cmd})...")
-        output = run_cmd(cmd)
+        if callable(cmd):
+            try:
+                output = cmd()
+            except Exception as e:
+                output = f"[-] Error executing collection function for {filename}: {e}"
+        else:
+            output = run_cmd(cmd)
 
         filepath = os.path.join(out_dir, filename)
         try:

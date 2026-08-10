@@ -21,11 +21,11 @@ def check_windows_baseline():
     print("  [1] Checking Windows Firewall status...")
     try:
         res = subprocess.run(
-            "netsh advfirewall show currentprofile state",
-            shell=True,
+            ["netsh", "advfirewall", "show", "currentprofile", "state"],
+            shell=False,
             capture_output=True,
             text=True,
-        )  # noqa: S602
+        )
         if "ON" in res.stdout:
             print("      [PASS] Windows Firewall is ENABLED.")
             score += 1
@@ -38,8 +38,8 @@ def check_windows_baseline():
     print("  [2] Checking Guest Account status...")
     try:
         res = subprocess.run(
-            "net user Guest", shell=True, capture_output=True, text=True
-        )  # noqa: S602
+            ["net", "user", "Guest"], shell=False, capture_output=True, text=True
+        )
         if "Account active               No" in res.stdout:
             print("      [PASS] Guest account is DISABLED.")
             score += 1
@@ -51,10 +51,14 @@ def check_windows_baseline():
     # Check 3: UAC Status (Registry check via reg query)
     print("  [3] Checking User Account Control (UAC) status...")
     try:
-        cmd = "reg query HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System /v EnableLUA"
-        res = subprocess.run(
-            cmd, shell=True, capture_output=True, text=True
-        )  # noqa: S602
+        cmd = [
+            "reg",
+            "query",
+            r"HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System",
+            "/v",
+            "EnableLUA",
+        ]
+        res = subprocess.run(cmd, shell=False, capture_output=True, text=True)
         if "0x1" in res.stdout:
             print("      [PASS] UAC is ENABLED.")
             score += 1
@@ -66,10 +70,14 @@ def check_windows_baseline():
     # Check 4: RDP Status
     print("  [4] Checking Remote Desktop (RDP) status...")
     try:
-        cmd = 'reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server" /v fDenyTSConnections'
-        res = subprocess.run(
-            cmd, shell=True, capture_output=True, text=True
-        )  # noqa: S602
+        cmd = [
+            "reg",
+            "query",
+            r"HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server",
+            "/v",
+            "fDenyTSConnections",
+        ]
+        res = subprocess.run(cmd, shell=False, capture_output=True, text=True)
         # fDenyTSConnections = 1 means RDP is disabled (a more secure baseline for workstations)
         if "0x1" in res.stdout:
             print("      [PASS] RDP is DISABLED (Secure Baseline).")
@@ -116,9 +124,7 @@ def check_linux_baseline():
     # Check 2: UFW / Firewall Status
     print("  [2] Checking Firewall (UFW) status...")
     try:
-        res = subprocess.run(
-            "ufw status", shell=True, capture_output=True, text=True
-        )  # noqa: S602
+        res = subprocess.run(["ufw", "status"], shell=False, capture_output=True, text=True)
         if "Status: active" in res.stdout:
             print("      [PASS] UFW Firewall is ACTIVE.")
             score += 1
