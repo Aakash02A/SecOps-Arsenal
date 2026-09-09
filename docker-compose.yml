@@ -1,0 +1,38 @@
+services:
+  # The unified SecOps Arsenal container
+  # Used to run background services or act as a base image
+  arsenal-base:
+    build: .
+    image: secops-arsenal:latest
+    container_name: secops-base
+    # Keep the container running in the background for exec sessions
+    command: tail -f /dev/null
+    networks:
+      - secops-net
+
+  # Example: Run the SOAR engine as a background service
+  soar-engine:
+    image: secops-arsenal:latest
+    container_name: secops-soar
+    # Example command to run the SOAR engine on a sample alert
+    # Modify this based on actual soar_engine.py usage
+    command: python orchestration/soar_engine.py orchestration/sample_alerts.json
+    depends_on:
+      - arsenal-base
+    networks:
+      - secops-net
+
+  # Example: Log Parser Dashboard (Streamlit)
+  # Uncomment and configure if Streamlit is set up to run standalone
+  # dashboard:
+  #   image: secops-arsenal:latest
+  #   container_name: secops-dashboard
+  #   command: streamlit run log-parser/dashboard.py --server.port=8501 --server.address=0.0.0.0
+  #   ports:
+  #     - "8501:8501"
+  #   networks:
+  #     - secops-net
+
+networks:
+  secops-net:
+    driver: bridge
