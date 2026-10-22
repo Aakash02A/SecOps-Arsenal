@@ -2,8 +2,8 @@ import argparse
 import datetime
 import os
 import platform
-import subprocess
 import shlex
+import subprocess
 import sys
 
 
@@ -15,11 +15,8 @@ def run_cmd(cmd):
     invocation semantics.
     """
     try:
-        if isinstance(cmd, (list, tuple)):
-            args = list(cmd)
-        else:
-            # split the string into args safely
-            args = shlex.split(str(cmd))
+        # Use ternary for cleaner conditional assignment
+        args = list(cmd) if isinstance(cmd, (list, tuple)) else shlex.split(str(cmd))
 
         res = subprocess.run(args, shell=False, capture_output=True, text=True, timeout=15)
 
@@ -50,6 +47,7 @@ def collect_windows(out_dir):
 
 def collect_linux(out_dir):
     """Native commands for Linux live response."""
+
     def _network_connections():
         out = run_cmd(["netstat", "-tulpn"])
         if out.startswith("[-]"):
@@ -59,9 +57,10 @@ def collect_linux(out_dir):
     def _system_info():
         out = run_cmd(["uname", "-a"]) or ""
         try:
-            with open("/etc/os-release", "r", encoding="utf-8") as f:
+            with open("/etc/os-release", encoding="utf-8") as f:
                 out += "\n\n" + f.read()
-        except Exception:
+        except OSError:
+            # Log or handle the exception if needed
             pass
         return out
 
@@ -171,9 +170,7 @@ def main():
         sys.exit(1)
 
     generate_report(out_dir, files, os_name)
-    print(
-        "\n[*] Triage complete. Zip the folder securely and transfer to analysis workstation."
-    )
+    print("\n[*] Triage complete. Zip the folder securely and transfer to analysis workstation.")
 
 
 if __name__ == "__main__":
