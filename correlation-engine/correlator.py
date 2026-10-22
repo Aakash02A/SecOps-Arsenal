@@ -13,8 +13,11 @@ def load_logs(filepath):
 
 
 def correlate_events(auth_logs, net_logs):
-    print("[*] Starting Log Correlation Engine...\n")
+    """Correlate authentication and network events to detect threats.
 
+    This function is designed to be testable without side effects.
+    Progress messages should be printed by the caller (main()) not here.
+    """
     # 1. Aggregate failed logins by IP
     failed_logins = defaultdict(int)
     successful_logins = set()
@@ -81,9 +84,14 @@ def main():
     auth_data = load_logs(args.auth_log)
     net_data = load_logs(args.net_log)
 
-    if not auth_data or not net_data:
-        return
+    # Warn on empty sources but still run — correlate_events() handles empty
+    # input gracefully, and partial data is still worth reporting on.
+    if not auth_data:
+        print(f"[-] Warning: no events loaded from {args.auth_log}.")
+    if not net_data:
+        print(f"[-] Warning: no events loaded from {args.net_log}.")
 
+    print("[*] Starting Log Correlation Engine...\n")
     alerts = correlate_events(auth_data, net_data)
 
     print("=" * 65)
@@ -97,9 +105,7 @@ def main():
             # Add basic ANSI coloring for terminal
             color = "\033[91m" if alert["severity"] == "CRITICAL" else "\033[93m"
             reset = "\033[0m"
-            print(
-                f"{color}[!] {alert['severity']} ALERT | Threat IP: {alert['ip']}{reset}"
-            )
+            print(f"{color}[!] {alert['severity']} ALERT | Threat IP: {alert['ip']}{reset}")
             print(f"    Reason: {alert['reason']}")
             print("-" * 65)
 
