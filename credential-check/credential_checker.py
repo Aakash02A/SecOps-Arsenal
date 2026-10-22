@@ -46,11 +46,7 @@ def check_pwned_passwords(password):
     Check if the password has been exposed in a data breach using the Have I Been Pwned API.
     Uses k-Anonymity by only sending the first 5 characters of the SHA-1 hash.
     """
-    sha1_hash = (
-        hashlib.sha1(password.encode("utf-8"), usedforsecurity=False)
-        .hexdigest()
-        .upper()
-    )  # noqa: S324
+    sha1_hash = hashlib.sha1(password.encode("utf-8"), usedforsecurity=False).hexdigest().upper()  # noqa: S324
     prefix = sha1_hash[:5]
     suffix = sha1_hash[5:]
 
@@ -74,13 +70,9 @@ def check_pwned_passwords(password):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Credential Checker: Complexity & Breach Lookup"
-    )
+    parser = argparse.ArgumentParser(description="Credential Checker: Complexity & Breach Lookup")
     parser.add_argument("password", help="Password to evaluate")
-    parser.add_argument(
-        "--no-breach", action="store_true", help="Skip the breached password check"
-    )
+    parser.add_argument("--no-breach", action="store_true", help="Skip the breached password check")
 
     args = parser.parse_args()
 
@@ -101,14 +93,10 @@ def main():
 
         if breach_count is not None:
             if breach_count > 0:
-                print(
-                    f"[!] WARNING: This password has been seen {breach_count} times in data breaches!"
-                )
+                print(f"[!] WARNING: This password has been seen {breach_count} times in data breaches!")
                 print("[!] Do NOT use this password.")
             else:
-                print(
-                    "[+] Good news: This password was not found in known data breaches."
-                )
+                print("[+] Good news: This password was not found in known data breaches.")
 
 
 if __name__ == "__main__":

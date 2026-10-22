@@ -37,9 +37,7 @@ def check_windows_baseline():
     # Check 2: Guest Account Status
     print("  [2] Checking Guest Account status...")
     try:
-        res = subprocess.run(
-            ["net", "user", "Guest"], shell=False, capture_output=True, text=True
-        )
+        res = subprocess.run(["net", "user", "Guest"], shell=False, capture_output=True, text=True)
         if "Account active               No" in res.stdout:
             print("      [PASS] Guest account is DISABLED.")
             score += 1
@@ -106,10 +104,7 @@ def check_linux_baseline():
         if os.path.exists("/etc/ssh/sshd_config"):
             with open("/etc/ssh/sshd_config") as f:
                 content = f.read()
-                if (
-                    "PermitRootLogin no" in content
-                    or "PermitRootLogin prohibit-password" in content
-                ):
+                if "PermitRootLogin no" in content or "PermitRootLogin prohibit-password" in content:
                     print("      [PASS] Root SSH login is restricted.")
                     score += 1
                 else:
@@ -166,9 +161,7 @@ def main():
     elif os_name == "Linux":
         # Need root for some linux checks (like ufw)
         if hasattr(os, "geteuid") and os.geteuid() != 0:
-            print(
-                "[-] WARNING: You are not running as root. Some checks may fail or return inaccurate results."
-            )
+            print("[-] WARNING: You are not running as root. Some checks may fail or return inaccurate results.")
         check_linux_baseline()
     else:
         print(f"[-] OS '{os_name}' is not currently supported by this auditor.")

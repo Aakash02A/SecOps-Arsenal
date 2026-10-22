@@ -30,12 +30,8 @@ def ingest_json(es, index_name, file_path):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="SIEM JSON Ingestion Script (Elasticsearch)"
-    )
-    parser.add_argument(
-        "file", help="Path to JSON file containing logs (e.g., from project 5)"
-    )
+    parser = argparse.ArgumentParser(description="SIEM JSON Ingestion Script (Elasticsearch)")
+    parser.add_argument("file", help="Path to JSON file containing logs (e.g., from project 5)")
     parser.add_argument(
         "-i",
         "--index",
@@ -56,9 +52,7 @@ def main():
     es = Elasticsearch(args.url, request_timeout=60)
 
     if not es.ping():
-        print(
-            "[-] Could not connect to Elasticsearch. Ensure your docker container is running (docker-compose up -d)."
-        )
+        print("[-] Could not connect to Elasticsearch. Ensure your docker container is running (docker-compose up -d).")
         sys.exit(1)
 
     ingest_json(es, args.index, args.file)

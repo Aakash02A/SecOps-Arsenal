@@ -54,9 +54,7 @@ def main():
         default=0,
         help="Number of packets to capture (0 = infinite)",
     )
-    parser.add_argument(
-        "-f", "--filter", default="ip", help="BPF filter (e.g., 'tcp port 80', 'icmp')"
-    )
+    parser.add_argument("-f", "--filter", default="ip", help="BPF filter (e.g., 'tcp port 80', 'icmp')")
 
     args = parser.parse_args()
 

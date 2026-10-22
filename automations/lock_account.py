@@ -76,9 +76,7 @@ def main():
 
     if not validate_username(args.username):
         print(f"[-] Invalid username: {args.username}")
-        print(
-            "    Usernames may only contain letters, numbers, dots, hyphens, and underscores."
-        )
+        print("    Usernames may only contain letters, numbers, dots, hyphens, and underscores.")
         sys.exit(1)
 
     os_name = platform.system()

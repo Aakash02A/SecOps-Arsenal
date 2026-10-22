@@ -14,11 +14,7 @@ SAMPLE_LOG_LINE = (
     '"http://www.example.com/start.html" "Mozilla/4.08"'
 )
 
-SAMPLE_LOG_LINE_404 = (
-    "10.0.0.5 - - [10/Oct/2000:14:00:00 -0700] "
-    '"POST /login HTTP/1.1" 404 0 '
-    '"-" "curl/7.68.0"'
-)
+SAMPLE_LOG_LINE_404 = '10.0.0.5 - - [10/Oct/2000:14:00:00 -0700] "POST /login HTTP/1.1" 404 0 "-" "curl/7.68.0"'
 
 
 class TestLogPattern:
@@ -50,9 +46,7 @@ class TestParseLogFile:
     """Test the file parsing function."""
 
     def test_parse_valid_file(self):
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".log", delete=False, encoding="utf-8"
-        ) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".log", delete=False, encoding="utf-8") as f:
             f.write(SAMPLE_LOG_LINE + "\n")
             f.write(SAMPLE_LOG_LINE_404 + "\n")
             f.write("bad line\n")

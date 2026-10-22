@@ -38,9 +38,7 @@ def run_nmap_scan(target, arguments):
 def main():
     parser = argparse.ArgumentParser(description="Basic Nmap Wrapper")
     parser.add_argument("target", help="Target IP or hostname")
-    parser.add_argument(
-        "-p", "--ports", help="Ports to scan (e.g., 22,80,443 or 1-1024)"
-    )
+    parser.add_argument("-p", "--ports", help="Ports to scan (e.g., 22,80,443 or 1-1024)")
     parser.add_argument(
         "-sV",
         "--service-version",
@@ -53,9 +51,7 @@ def main():
         action="store_true",
         help="Enable OS detection (requires root/admin)",
     )
-    parser.add_argument(
-        "--json", action="store_true", help="Output results in JSON format"
-    )
+    parser.add_argument("--json", action="store_true", help="Output results in JSON format")
 
     args = parser.parse_args()
 
@@ -82,9 +78,7 @@ def main():
                     state = port_data.get("state", "unknown")
                     name = port_data.get("name", "unknown")
                     version = port_data.get("version", "")
-                    print(
-                        f"    Port: {port}\tState: {state}\tService: {name} {version}"
-                    )
+                    print(f"    Port: {port}\tState: {state}\tService: {name} {version}")
 
 
 if __name__ == "__main__":

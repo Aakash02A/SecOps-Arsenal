@@ -90,9 +90,7 @@ def main():
     parser.add_argument("log_file", help="Path to the access.log file")
     parser.add_argument("--csv", help="Output parsed data to CSV format")
     parser.add_argument("--json", help="Output parsed data to JSON format")
-    parser.add_argument(
-        "--analyze", action="store_true", help="Perform and print quick analysis"
-    )
+    parser.add_argument("--analyze", action="store_true", help="Perform and print quick analysis")
 
     args = parser.parse_args()
 

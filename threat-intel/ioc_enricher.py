@@ -97,9 +97,7 @@ def main():
         print(f"\n[+] Enriching Domain: {args.domain}")
         results[args.domain] = []
         if otx_key:
-            results[args.domain].append(
-                check_alienvault_otx(args.domain, "domain", otx_key)
-            )
+            results[args.domain].append(check_alienvault_otx(args.domain, "domain", otx_key))
         else:
             print("  [-] OTX_API_KEY not set, skipping AlienVault OTX check...")
 

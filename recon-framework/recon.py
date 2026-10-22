@@ -37,9 +37,7 @@ def check_directory(base_url, dir_name):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Recon Framework: Subdomain & Directory Enumeration"
-    )
+    parser = argparse.ArgumentParser(description="Recon Framework: Subdomain & Directory Enumeration")
     parser.add_argument("target", help="Target domain (e.g., example.com)")
     parser.add_argument("-w", "--wordlist", required=True, help="Path to wordlist file")
     parser.add_argument(
@@ -49,12 +47,8 @@ def main():
         default=10,
         help="Number of concurrent threads (default: 10)",
     )
-    parser.add_argument(
-        "--subdomains", action="store_true", help="Run subdomain enumeration"
-    )
-    parser.add_argument(
-        "--directories", action="store_true", help="Run directory brute-force"
-    )
+    parser.add_argument("--subdomains", action="store_true", help="Run subdomain enumeration")
+    parser.add_argument("--directories", action="store_true", help="Run directory brute-force")
 
     args = parser.parse_args()
 
@@ -87,9 +81,7 @@ def main():
                 if res:
                     print(f"  [+] {res}")
                     found_subs.append(res)
-        print(
-            f"[*] Subdomain Enum Complete. Found {len(found_subs)} active subdomains."
-        )
+        print(f"[*] Subdomain Enum Complete. Found {len(found_subs)} active subdomains.")
 
     if args.directories:
         print("\n[*] Starting Directory Brute-force (HTTP GET)...")
@@ -105,9 +97,7 @@ def main():
                 if res:
                     print(f"  [+] {res}")
                     found_dirs.append(res)
-        print(
-            f"[*] Directory Brute-force Complete. Found {len(found_dirs)} accessible paths."
-        )
+        print(f"[*] Directory Brute-force Complete. Found {len(found_dirs)} accessible paths.")
 
 
 if __name__ == "__main__":

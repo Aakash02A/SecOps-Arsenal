@@ -92,9 +92,7 @@ def main():
     )
 
     # Check command
-    parser_check = subparsers.add_parser(
-        "check", help="Check integrity against baseline"
-    )
+    parser_check = subparsers.add_parser("check", help="Check integrity against baseline")
     parser_check.add_argument("directory", help="Directory to monitor")
     parser_check.add_argument(
         "-b",
@@ -111,9 +109,7 @@ def main():
     )
 
     # Monitor command
-    parser_monitor = subparsers.add_parser(
-        "monitor", help="Continuously monitor integrity against baseline"
-    )
+    parser_monitor = subparsers.add_parser("monitor", help="Continuously monitor integrity against baseline")
     parser_monitor.add_argument("directory", help="Directory to monitor")
     parser_monitor.add_argument(
         "-b",
@@ -128,9 +124,7 @@ def main():
         choices=["md5", "sha1", "sha256", "sha512"],
         help="Hash algorithm",
     )
-    parser_monitor.add_argument(
-        "-i", "--interval", type=int, default=10, help="Check interval in seconds"
-    )
+    parser_monitor.add_argument("-i", "--interval", type=int, default=10, help="Check interval in seconds")
 
     args = parser.parse_args()
 
@@ -139,9 +133,7 @@ def main():
     elif args.command == "check":
         monitor_integrity(args.directory, args.baseline, args.algorithm)
     elif args.command == "monitor":
-        print(
-            f"[*] Starting continuous monitoring every {args.interval} seconds. Press Ctrl+C to stop."
-        )
+        print(f"[*] Starting continuous monitoring every {args.interval} seconds. Press Ctrl+C to stop.")
         try:
             while True:
                 monitor_integrity(args.directory, args.baseline, args.algorithm)

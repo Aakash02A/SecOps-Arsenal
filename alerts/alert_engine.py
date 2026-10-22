@@ -35,15 +35,10 @@ class AlertEngine:
 
             try:
                 if operator == "regex":
-                    if isinstance(actual_value, str) and re.search(
-                        str(target_value), actual_value
-                    ):
+                    if isinstance(actual_value, str) and re.search(str(target_value), actual_value):
                         match = True
                 elif operator == "contains":
-                    if (
-                        isinstance(actual_value, str)
-                        and str(target_value) in actual_value
-                    ):
+                    if isinstance(actual_value, str) and str(target_value) in actual_value:
                         match = True
                 elif operator == "equals" and str(actual_value) == str(target_value):
                     match = True
@@ -66,9 +61,7 @@ class AlertEngine:
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Rule-Based Alert Generator (IDS/IPS logic)"
-    )
+    parser = argparse.ArgumentParser(description="Rule-Based Alert Generator (IDS/IPS logic)")
     parser.add_argument("logs", help="Path to JSON file containing parsed logs")
     parser.add_argument(
         "-r",
@@ -110,9 +103,7 @@ def main():
                 color = "\033[94m"  # Blue
             reset = "\033[0m"
 
-            print(
-                f"{color}[!] ALERT [Sev: {severity}] | Rule: {alert['rule_name']} (ID: {alert['rule_id']}){reset}"
-            )
+            print(f"{color}[!] ALERT [Sev: {severity}] | Rule: {alert['rule_name']} (ID: {alert['rule_id']}){reset}")
             print(f"    Source IP: {alert['source_ip']}")
             print(f"    Trigger Value: {alert['trigger_value']}")
             print("-" * 50)

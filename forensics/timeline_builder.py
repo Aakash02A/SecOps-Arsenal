@@ -57,9 +57,7 @@ def build_timeline(directory, output_csv):
         writer.writeheader()
         writer.writerows(timeline_events)
 
-    print(
-        "[+] Timeline generation complete. You can open this CSV in Excel or Timeline Explorer."
-    )
+    print("[+] Timeline generation complete. You can open this CSV in Excel or Timeline Explorer.")
 
 
 def main():

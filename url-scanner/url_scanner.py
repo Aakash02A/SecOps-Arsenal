@@ -36,9 +36,7 @@ def check_regex_patterns(url):
 
     # Check for suspicious characters or obfuscation (e.g., @ symbol for basic auth)
     if "@" in domain:
-        findings.append(
-            "URL contains '@' symbol in domain, often used to obscure the true destination."
-        )
+        findings.append("URL contains '@' symbol in domain, often used to obscure the true destination.")
 
     return findings
 
@@ -61,16 +59,10 @@ def check_virustotal(url, api_key):
 
         if response.status_code == 200:
             data = response.json()
-            stats = (
-                data.get("data", {})
-                .get("attributes", {})
-                .get("last_analysis_stats", {})
-            )
+            stats = data.get("data", {}).get("attributes", {}).get("last_analysis_stats", {})
             return {"stats": stats}
         elif response.status_code == 404:
-            return {
-                "status": "URL not found in VirusTotal database (hasn't been scanned recently)."
-            }
+            return {"status": "URL not found in VirusTotal database (hasn't been scanned recently)."}
         elif response.status_code == 401:
             return {"error": "Invalid VirusTotal API Key."}
         else:
@@ -81,13 +73,9 @@ def check_virustotal(url, api_key):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="URL Scanner: Regex + Reputation Checks"
-    )
+    parser = argparse.ArgumentParser(description="URL Scanner: Regex + Reputation Checks")
     parser.add_argument("url", help="The URL to scan (e.g., https://example.com)")
-    parser.add_argument(
-        "--api-key", help="VirusTotal API Key (can also be set via VT_API_KEY env var)"
-    )
+    parser.add_argument("--api-key", help="VirusTotal API Key (can also be set via VT_API_KEY env var)")
 
     args = parser.parse_args()
     url = args.url
@@ -132,14 +120,10 @@ def main():
             print(f"    - Harmless:   {harmless} vendors")
 
             if malicious > 0 or suspicious > 0:
-                print(
-                    "\n[!] WARNING: This URL is flagged as malicious or suspicious by multiple security vendors!"
-                )
+                print("\n[!] WARNING: This URL is flagged as malicious or suspicious by multiple security vendors!")
     else:
         print("[-] Skipping VirusTotal check (no API key provided).")
-        print(
-            "    Set the VT_API_KEY environment variable or pass --api-key to enable."
-        )
+        print("    Set the VT_API_KEY environment variable or pass --api-key to enable.")
 
 
 if __name__ == "__main__":

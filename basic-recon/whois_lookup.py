@@ -65,9 +65,7 @@ def main():
             print(f"    Created:     {result['creation_date']}")
             print(f"    Expires:     {result['expiration_date']}")
             print(f"    Name Servers: {', '.join(result['name_servers'])}")
-            print(
-                f"    Emails:      {', '.join(result['emails']) if result['emails'] else 'N/A'}"
-            )
+            print(f"    Emails:      {', '.join(result['emails']) if result['emails'] else 'N/A'}")
 
 
 if __name__ == "__main__":

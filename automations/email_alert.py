@@ -14,9 +14,7 @@ def send_alert(to_email, subject, body):
 
     if not smtp_user or not smtp_pass:
         print("[-] Error: SMTP_USER and SMTP_PASS environment variables must be set.")
-        print(
-            "    Example: export SMTP_USER='alert@example.com' && export SMTP_PASS='YourPassword'"
-        )
+        print("    Example: export SMTP_USER='alert@example.com' && export SMTP_PASS='YourPassword'")
         sys.exit(1)
 
     msg = EmailMessage()

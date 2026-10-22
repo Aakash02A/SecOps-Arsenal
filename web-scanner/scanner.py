@@ -44,13 +44,9 @@ def check_headers(url):
 
         # Check for information disclosure headers
         if "Server" in headers:
-            print(
-                f"  [!] Info Disclosure: Server header is exposed -> {headers['Server']}"
-            )
+            print(f"  [!] Info Disclosure: Server header is exposed -> {headers['Server']}")
         if "X-Powered-By" in headers:
-            print(
-                f"  [!] Info Disclosure: X-Powered-By header is exposed -> {headers['X-Powered-By']}"
-            )
+            print(f"  [!] Info Disclosure: X-Powered-By header is exposed -> {headers['X-Powered-By']}")
 
     except requests.exceptions.RequestException as e:
         print(f"[-] Error retrieving headers: {e}")
@@ -72,9 +68,7 @@ def check_tls(hostname):
             subject = dict(x[0] for x in cert.get("subject", []))
 
             print(f"  [+] Issued To: {subject.get('commonName', 'Unknown')}")
-            print(
-                f"  [+] Issued By: {issuer.get('organizationName', issuer.get('commonName', 'Unknown'))}"
-            )
+            print(f"  [+] Issued By: {issuer.get('organizationName', issuer.get('commonName', 'Unknown'))}")
 
             not_after = cert.get("notAfter")
             if not_after:
@@ -82,13 +76,9 @@ def check_tls(hostname):
                 expire_date = datetime.strptime(not_after, "%b %d %H:%M:%S %Y %Z")
                 days_left = (expire_date - datetime.now(UTC)).days
 
-                print(
-                    f"  [+] Expiration: {expire_date.strftime('%Y-%m-%d')} ({days_left} days remaining)"
-                )
+                print(f"  [+] Expiration: {expire_date.strftime('%Y-%m-%d')} ({days_left} days remaining)")
                 if days_left < 30:
-                    print(
-                        f"  [!] WARNING: Certificate expires soon ({days_left} days)!"
-                    )
+                    print(f"  [!] WARNING: Certificate expires soon ({days_left} days)!")
             else:
                 print("  [-] Could not parse expiration date.")
 

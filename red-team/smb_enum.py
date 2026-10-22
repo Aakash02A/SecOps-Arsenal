@@ -40,20 +40,14 @@ def enum_shares(ip, username, password, domain=""):
 
     except Exception as e:
         print(f"[-] SMB connection failed: {e}")
-        print(
-            "    (Check credentials, ensure port 445 is open, and verify SMBv2/v3 is enabled)"
-        )
+        print("    (Check credentials, ensure port 445 is open, and verify SMBv2/v3 is enabled)")
 
 
 def main():
     parser = argparse.ArgumentParser(description="Educational SMB Share Enumerator")
     parser.add_argument("ip", help="Target IP address")
-    parser.add_argument(
-        "-u", "--username", default="guest", help="Username (default: guest)"
-    )
-    parser.add_argument(
-        "-p", "--password", default="", help="Password (default: empty)"
-    )
+    parser.add_argument("-u", "--username", default="guest", help="Username (default: guest)")
+    parser.add_argument("-p", "--password", default="", help="Password (default: empty)")
     parser.add_argument("-d", "--domain", default="", help="Domain name (optional)")
 
     args = parser.parse_args()
