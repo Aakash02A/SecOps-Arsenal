@@ -1,0 +1,75 @@
+name: CI
+
+# Runs the enforced quality gates that were previously only available locally
+# (Ruff lint, Ruff format check, and the pytest suite) on every push and PR.
+# CodeQL (SAST) is handled separately in codeql.yml.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Least-privilege: this workflow only needs to read the repo and run checks.
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint & Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          # Matches the pinned ruff version used by pre-commit and
+          # requirements-dev.txt so formatting rules are identical everywhere.
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Ruff lint
+        run: ruff check .
+
+      - name: Ruff format check
+        run: ruff format --check .
+
+      - name: Validate YAML/JSON config
+        run: |
+          python -c "import yaml, glob, sys; [yaml.safe_load(open(f, encoding='utf-8')) for f in glob.glob('**/*.yaml', recursive=True) + glob.glob('**/*.yml', recursive=True)]"
+          echo "[+] All YAML files parse successfully."
+
+      # Supply-chain check: reported but non-blocking so a newly disclosed
+      # advisory in an unused transitive dep does not hard-fail unrelated PRs.
+      - name: Dependency vulnerability audit (pip-audit)
+        continue-on-error: true
+        run: pip install -r requirements.txt && pip-audit -r requirements.txt
+
+  test:
+    name: Tests (${{ matrix.os }}, py${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Run pytest with coverage
+        run: pytest --cov --cov-report=term-missing
