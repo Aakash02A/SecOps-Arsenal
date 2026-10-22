@@ -10,7 +10,9 @@ pytest~=8.3
 pytest-cov~=6.0
 
 # Linting & Formatting
-ruff~=0.8
+# Pinned exactly to match .pre-commit-config.yaml and CI so all three agree
+# on the same formatting rules (avoids cross-version format drift).
+ruff==0.17.1
 
 # Pre-commit hooks
 pre-commit~=4.0

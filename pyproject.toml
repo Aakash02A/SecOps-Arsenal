@@ -24,7 +24,6 @@ ignore = [
     "S607",  # starting a process with a partial executable path
     "S108",  # probable insecure temp file usage — educational tools
     "S310",  # audit URL open — we intentionally make HTTP requests
-    "S320",  # using lxml — not applicable
     "S501",  # verify=False — intentional for security testing tools
 ]
 
